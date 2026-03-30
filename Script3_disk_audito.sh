@@ -1,29 +1,33 @@
 #!/bin/bash
-# Prakhar Shukla 24BCE10117
-# OSS Assignment - 3 scripts in one
+# prakhar 24BCE10117
 
-echo "=== System Info ==="
-echo "Name: Prakhar Shukla"
-echo "Reg: 24BCE10117"
-echo "Kernel: $(uname -r)"
-echo "User: $(whoami)"
-echo "Git: $(git --version)"
+echo "========================================"
+echo "SYSTEM INFO"
+echo "========================================"
 
-echo ""
-echo "=== Package Check ==="
-pkg=${1:-git}
-if dpkg -l "$pkg" | grep "^ii" > /dev/null; then
-    echo "$pkg installed"
-    dpkg -s "$pkg" | grep -E "Package|Version"
+# variables
+student="Prakhar Shukla"
+regno="24BCE10117"
+echo "Name: $student"
+echo "Reg: $regno"
+
+# system commands
+echo "Kernel: `uname -r`"  # old style
+echo "User: $(whoami)"      # new style
+
+# git check - works on my laptop
+if command -v git >/dev/null 2>&1; then
+    git --version 2>&1 | head -1
 else
-    echo "$pkg not installed"
+    echo "no git"
 fi
 
-echo ""
-echo "=== Disk Check ==="
-for dir in /etc /home /usr/bin; do
-    echo "$dir: $(du -sh $dir 2>/dev/null | cut -f1)"
-done
+# distro (might not work)
+distro=$(lsb_release -d 2>/dev/null | cut -f2)
+[ -z "$distro" ] && distro="unknown"
+echo "OS: $distro"
 
 echo ""
-echo "Git uses GPL v2"
+echo "========================================"
+echo "Git license: GPL v2"
+echo "========================================"
