@@ -1,25 +1,21 @@
 ========================================================
-           MY OPEN SOURCE MANIFESTO
   Author  : prakh
   Date    : 29 March 2026
   Audit   : Git (GPL v2) | VIT Bhopal OSS Course
 ========================================================
 
-  Every day, I depend on vlc to do my work — software
-  built openly and shared freely by people who believed
-  that tools should belong to everyone.
+Open Source Manifesto Generator
+===============================
+Tool you use daily: kde kdenlive
+What freedom means: responsibilty for your own actions
+What you'd build: local compressed ai unlike claude code, hepls you whenever you don't wish to touch keyboard
+Saved to manifesto_prakh.txt:
+My Open Source Manifesto
+Date: Mon Mar 30 04:23:21 UTC 2026
 
-  To me, freedom means freedom means with freedom comes responsibitty, for me i tike doing things and take the responsibility for my actions. That is exactly the
-  freedom that Linus Torvalds encoded into Git when he
-  licensed it under the GPL: the freedom to run it,
-  study it, change it, and pass it on.
-
-  If I could give one thing back to the world of open
-  source, it would be it would be a locat compressed ai model that doesn't eat up your RAM and hardware instead acts tike a os based companion — free for anyone to
-  use, fork, and improve. Not because a license forces
-  me to. Because sharing is what makes the work matter.
-
-  I commit to building in the open.
+I use kde kdenlive daily. Freedom means responsibilty for your own actions.
+I'd build local compressed ai unlike claude code, hepls you whenever you don't wish to touch keyboard and share it open source.
+Git uses GPL v2.
 
                     — prakh | 29 March 2026
 ========================================================
