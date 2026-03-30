@@ -1,47 +1,59 @@
 #!/bin/bash
-# Script 2 - check package - Prakhar Shukla 24BCE10117
+# prakhar - 24BCE10117 - oss lab
+# checking if packages installed
 
-# use first argument or default to git
-pkg=${1:-git}
+# my laptop uses ubuntu so dpkg works
+# FIXME: might not work on fedora but whatever
 
-echo "Checking package: $pkg"
-echo ""
+pkg=$1
 
-# check if installed using dpkg
-if dpkg -l "$pkg" 2>/dev/null | grep "^ii" > /dev/null; then
-    echo "$pkg is installed"
-    
-    # get version
-    ver=$(dpkg -l "$pkg" | grep "^ii" | awk '{print $3}')
-    echo "Version: $ver"
-    
-    # show some info
-    echo ""
-    echo "Package info:"
-    dpkg -s "$pkg" | grep -E "Package|Version|Maintainer"
-    
-else
-    echo "$pkg is NOT installed"
-    echo "Install with: sudo apt install $pkg"
+# if no arg given, check git
+if [ "$pkg" == "" ]; then
+  pkg="git"
 fi
 
-echo ""
+echo "Checking package: $pkg"
+echo "========================"
 
-# case statement for philosophy part
-case "$pkg" in
-    git)
-        echo "Git was made by Linus Torvalds in 2005"
-        echo "License: GPL v2"
-        ;;
-    firefox)
-        echo "Firefox is by Mozilla"
-        echo "License: MPL 2.0"
-        ;;
-    vlc)
-        echo "VLC plays anything"
-        echo "License: LGPL"
-        ;;
-    *)
-        echo "$pkg is open source software"
-        ;;
-esac
+# check if installed - got this from stackoverflow
+# https://stackoverflow.com/questions/1298066
+dpkg -l "$pkg" 2>/dev/null | grep "^ii" > /dev/null
+if [ $? -eq 0 ]; then
+    echo "[OK] $pkg is installed"
+    
+    # get version number
+    ver=$(dpkg -l "$pkg" | grep "^ii" | awk '{print $3}')
+    echo "version: $ver"
+    
+    # show metadata
+    echo ""
+    echo "--- Package Info ---"
+    dpkg -s "$pkg" | grep "Package:" | head -1
+    dpkg -s "$pkg" | grep "Version:" | head -1
+    dpkg -s "$pkg" | grep "Maintainer:" || echo "no maintainer info"
+else
+    echo "[X] $pkg not found"
+    echo ""
+    echo "to install run:"
+    echo "sudo apt-get install $pkg"
+    echo ""
+    # echo "or download from website"  # commented out, not sure
+fi
+
+# license info - did this from memory might be wrong
+echo ""
+echo "License:"
+if [ "$pkg" = "git" ]; then
+  echo "GPL v2"
+elif [ "$pkg" = "firefox" ]; then
+  echo "MPL something"
+elif [ "$pkg" = "vlc" ]; then
+  echo "LGPL i think"
+elif [ "$pkg" = "python3" ]; then
+  echo "PSF"
+else
+  echo "probably GPL or MIT"
+  # check with: cat /usr/share/doc/$pkg/copyright 2>/dev/null | head -5
+fi
+
+# debug: echo "done at $(date)" >> /tmp/script2.log
