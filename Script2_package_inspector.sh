@@ -1,56 +1,39 @@
 #!/bin/bash
 # prakhar shukla 24BCE10117
-# oss assignment - git audit
-# submitted late because wifi was down
+# oss assignment - checking packages
 
-echo "========================================"
-echo "SYSTEM INFO - Git Open Source Audit"
-echo "========================================"
-echo ""
+pkg=$1
+# default to git if nothing given
+[ -z "$pkg" ] && pkg="git"
 
-# my info
-name="Prakhar Shukla"
-reg="24BCE10117"
-course="OSS"
-echo "Name: $name"
-echo "Reg: $reg"  
-echo "Course: $course"
-echo ""
+echo "Checking: $pkg"
+echo "========================"
 
-# debug: echo "starting system check"
-
-# system stuff - got these commands from google
-echo "Kernel: $(uname -r)"
-echo "User: $(whoami)"
-echo "Home Directory: $HOME"
-
-# distro check - lsb_release might not work on all systems
-# my friend said to use cat /etc/os-release but this works for me
-distro=$(lsb_release -d 2>/dev/null | cut -f2)
-if [ -z "$distro" ]; then
-    distro="Unknown Linux"
-    # TODO: fix this later
-fi
-echo "Operating System: $distro"
-
-# other system info
-echo "Uptime: $(uptime)"
-echo "Date/Time: $(date)"
-
-# check if git exists
-if which git > /dev/null 2>&1; then
-    git --version
+# check if installed - works on my ubuntu laptop
+# might break on other systems idk
+dpkg -l "$pkg" 2>/dev/null | grep "^ii" > /dev/null
+if [ $? -eq 0 ]; then
+    echo "[OK] $pkg is installed"
+    
+    # get version - copied from stackoverflow
+    ver=$(dpkg -l "$pkg" | grep "^ii" | awk '{print $3}')
+    echo "Version: $ver"
+    
+    # show some info
+    echo ""
+    dpkg -s "$pkg" 2>/dev/null | grep -E "^(Package|Version|Maintainer)" || echo "no info found"
 else
-    echo "git not installed"
+    echo "[NOT FOUND] $pkg"
+    echo "Install: sudo apt install $pkg"
 fi
 
+# license info - from memory might be wrong
 echo ""
-echo "========================================"
-echo "License Information:"
-echo "Git is under GPL v2"
-echo "Linux kernel is also GPL v2"
-echo "Copyleft means you have to share source code"
-echo "========================================"
-
-# unused variable for future extension
-# semester="6th"
+echo "License:"
+case "$pkg" in
+    git) echo "GPL v2 (Linus Torvalds)" ;;
+    firefox) echo "MPL 2.0 i think" ;;
+    vlc) echo "LGPL or something" ;;
+    python3) echo "PSF license" ;;
+    *) echo "probably open source, check google" ;;
+esac
